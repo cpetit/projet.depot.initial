@@ -1,3 +1,5 @@
+// Version du 30/01/14
+
 #define PI 3.1415926535897932384626433832795
 
 static int Width;	

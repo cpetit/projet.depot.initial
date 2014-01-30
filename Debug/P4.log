@@ -1,4 +1,4 @@
-﻿Build started 12/31/2013 7:16:02 AM.
+﻿Build started 1/30/2014 8:54:59 AM.
      1>Project "C:\Users\cpetit\Documents\Visual Studio 2010\Projects\P4\P4\P4.vcxproj" on node 2 (rebuild target(s)).
      1>_PrepareForClean:
          Deleting file "Debug\P4.lastbuildstate".
@@ -11,6 +11,7 @@
          main.cpp
          Fenetre.cpp
          EtatCourant.cpp
+     1>c:\users\cpetit\documents\visual studio 2010\projects\p4\p4\etatcourant.cpp(78): warning C4552: '<<' : operator has no effect; expected operator with side-effect
          Colonne.cpp
          Case.cpp
          Generating Code...
@@ -32,4 +33,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:07.20
+Time Elapsed 00:00:06.50

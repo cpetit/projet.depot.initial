@@ -68,7 +68,7 @@ void Partie::annuleCoup(bool*effectue,int* i,int*j)
 		colonne=(int)(derniereCase-ligne)/7;
 		if (nbCoup%2==0) listePionRouge.push_back(this->situation.getCol(colonne).getContenuH(ligne));
 		else listePionJaune.push_back(this->situation.getCol(colonne).getContenuH(ligne));
-		this->situation.enleve(colonne);
+		this->situation.enlever(colonne);
 		nbCoup--;
 		cout<<nbCoup<<"\n";
 		if(this->trait==this->joueur1) this->trait=this->joueur2;

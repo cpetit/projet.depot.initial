@@ -1,3 +1,5 @@
+// Version du 29/01/14
+
 #pragma once
 #include <string>
 #include "Pion.h"
@@ -16,7 +18,7 @@ class Case
 	~Case(void);
 	string getEtat(void);
 	Pion getPion(void);
-	void setPion(Pion cePion);
+	void setPion(Pion);
 	void setVide(void);
 	void info(void);
 };

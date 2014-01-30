@@ -1,6 +1,10 @@
+// Version du 29/01/14
+
 #include "Pion.h"
 #include <iostream>
 #include <string>
+
+// Variables de classe servant à numéroter les pions
 int Pion::compteur=0;
 int Pion::nbPionJaune=0;
 int Pion::nbPionRouge=0;
@@ -25,7 +29,7 @@ Pion::Pion(string cetteCouleur)
 // Destructeur
 Pion::~Pion(void)
 {
-	compteur--; 
+	if (this->couleur!="vide") this->compteur--; 
 	if (this->couleur=="rouge") this->nbPionRouge--;
 	if (this->couleur=="jaune") this->nbPionJaune--;
 }

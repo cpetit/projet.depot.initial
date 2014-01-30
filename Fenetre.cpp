@@ -1,10 +1,11 @@
+// Version du 30/01/14
 
 #include "Fenetre.h"
 #include "Partie.h"
 #include <iostream>
 
 // Variables globales devant être appelées dans les différentes
-// fonctions de callback dont on ne peut pas modifier le prototype.
+// fonctions de callback (dont on ne peut pas modifier le prototype).
 
 Partie maPartie;
 int valeurMenu;
@@ -25,29 +26,37 @@ Fenetre::~Fenetre(void)
 // La méthode ouvrir récupère les paramètres arg et argv indispensables
 // au lancement de la bibliothèque opengl.
 // Elle initialise la fenêtre graphique et gère les évènements.
+
 void Fenetre::ouvrir(int argc, char** argv)
 {
-	// Prototypes des fonctions qui seront appelées par les fonctions callback.
+
+	// Prototypes des fonctions qui seront appelées par les fonctions callback
+	// lorsqu'un évènement se déclenche.
 	void affiche(void);
 	void handleButtons(int button, int state, int x, int y);
 	void handleResize(int w, int h);
 	void handleKey(unsigned char key, int x, int y);
 	void menu(int);
+	//_________________________________________________________________________
 
-	// Initialisations de la fenêtre graphique
-	// et des modes utilisés.
-	glutInit(&argc, argv);							// Initialisation de glut.  
-    glutInitWindowSize(800, 800*1080/1920);			// Taille de la fenetre.
-    glutInitWindowPosition(50, 50);					// Position de la fenetre.
-    glutInitDisplayMode(GLUT_RGBA | GLUT_SINGLE);   // Type d'affficahge RGBA. 
 
 	// Initialisation du tableau donnant la couleur de chaque case de la grille.
 	for(int i=0;i<HAUTEUR;i++)
 	{
 		for(int j=0;j<LARGEUR;j++) couleurCase[i][j]='N';
 	}
+	//_________________________________________________________________________
+	
 
+	// Initialisations de la fenêtre graphique
+	// et des modes graphiques utilisés.
+	glutInit(&argc, argv);							// Initialisation de glut.  
+    glutInitWindowSize(800, 800*1080/1920);			// Taille de la fenetre.
+    glutInitWindowPosition(50, 50);					// Position de la fenetre.
+    glutInitDisplayMode(GLUT_RGBA | GLUT_SINGLE);   // Type d'affficahge RGBA. 
     glutCreateWindow("PUISSANCE 4 - clic droit pour accéder au menu - q pour quitter -"); 
+	//_________________________________________________________________________
+
 
 	// Création du menu
 	int m = glutCreateMenu(menu) ;
@@ -58,29 +67,39 @@ void Fenetre::ouvrir(int argc, char** argv)
 	glutAddMenuEntry("Rejouer coup.",4) ;
 	glutAddMenuEntry("Nouvelle partie.",5) ;
 	glutAttachMenu(GLUT_RIGHT_BUTTON) ;
+	//_____________________________________________
+
 
 	// On écoute les évènements via les fonctions callback
-	// et on affiche en fonction
+	// et on effctue l'affichage en fonction des appels.
 	glutDisplayFunc(affiche);
 	glutKeyboardFunc(handleKey);
 	glutMouseFunc(handleButtons);
 	glutReshapeFunc(handleResize);
-	// Définition de la couleur de fond avant lancement de la
-	// boucle open GL
-	glClearColor(0, 0, 1, 0);
+	//____________________________________________________
+
+	// Lancement de la boucle principale d'affichage et de
+	// la machine à états opengl.
 	glutMainLoop();
 }
 
+
 // Fonction effectuant l'affichage et sa mise à jour.
+// Cette fonction est automatiquement appelée (via la 
+// fonction callback glutDisplayFunc) dès qu'un affichage
+// est à effectuer.
 void affiche()
 {
   int i;
-  void annuleCoup(void);
+  void annuleCoup(void); // prototype d'annuleCoup
 
-  //GLfloat tabDisque[HAUTEUR][LARGEUR][50*3];
+  // GLfloat tabDisque[HAUTEUR][LARGEUR][50*3];
   
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClearColor(0, 0, 1, 0);		// Couleur de fond
+  glClear(GL_COLOR_BUFFER_BIT);	// Nettoyage de la fenêtre 
   
+  // Ecoute du menu et exécution de la fonction
+  // correspondante à chaque choix (via le callback !).
   switch(valeurMenu)
   {
 	case 1: cout<<"Charger."<<endl;break;
@@ -107,27 +126,12 @@ void affiche()
   glEnd();
   glFlush();
 
-  // Tracé des cases.
+  // Tracé initial des cases.
+  glEnableClientState(GL_NORMAL_ARRAY);
   for(int k=0;k<LARGEUR;k++)
   {
 	for(int l=0;l<HAUTEUR;l++)
 	{
-		/* Tentative d'utilisation des draw array
-		Pour l'instant ça ne marche pas.
-		int j=0;
-		for(float i = 0; i < 2 * PI; i += PI / 25)
-		{
-			tabDisque[k][l][j]=0.5+k+cos((float)i)*0.4;
-			tabDisque[k][l][j+1]=0.5+l+sin((float)i)*0.4;
-			tabDisque[k][l][j+2]=0.0;
-			j=j+3;
-		}
-
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3,GL_FLOAT,0,tabDisque[k][l]);
-		glDrawArrays(GL_POLYGON,0,150);
-		glFlush();*/
-
 		if(couleurCase[l][k]=='N') glColor3f(0, 0, 0);
 		else if(couleurCase[l][k]=='R') glColor3f(1, 0, 0);
 		else glColor3f(255, 255, 0);
@@ -136,6 +140,11 @@ void affiche()
 		glEnd();
 		glFlush();
 	}
+	GLUquadricObj *circle = gluNewQuadric ();
+	if (circle != 0) gluQuadricDrawStyle(circle, GLU_FILL); 
+	// gluDisk (nomDuDisque,centre,rayon,rayonTrouCentral,1);
+	gluDisk (circle,0,2,60,4); 
+
   }
 }
 
@@ -182,6 +191,8 @@ void handleButtons(int button, int state, int x, int y)
 	delete c;
 }
 
+// Fonction de changement de taille ou de place
+// de la fenêtre et de mise à jour des éléments à afficher.
 void handleResize(int w, int h)
 {
   Width = w;

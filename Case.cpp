@@ -1,3 +1,5 @@
+// Version du 29/01/14
+
 #include "Case.h"
 #include <iostream>
 
@@ -36,6 +38,11 @@ void Case::setPion(Pion cePion)
 
 void Case::setVide(void)
 {
+	// Si l'on annule un coup, une case peut être remise dans l'état vide.
+	// On pourrait créer un pion vide pour le mettre dedans et "vider" ainsi la case,
+	// mais cela est sans intérêt. On se contente donc de mettre l'état à vide.
+	// L'ancien pion a été remis dans le stock du joueur correspondant et on ne
+	// doit donc plus accéder à this->cePion.
 	this->etat="vide";
 }
 
