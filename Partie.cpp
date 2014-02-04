@@ -70,13 +70,13 @@ void Partie::annuleCoup(bool*effectue,int* i,int*j)
 		else listePionJaune.push_back(this->situation.getCol(colonne).getContenuH(ligne));
 		this->situation.enlever(colonne);
 		nbCoup--;
-		cout<<nbCoup<<"\n";
 		if(this->trait==this->joueur1) this->trait=this->joueur2;
 		else this->trait=this->joueur1;
 		*effectue=true;
 		*i=ligne;
 		*j=colonne;
 	}
+	else *effectue=false;
 }
 
 int Partie::getNbCoup(void)

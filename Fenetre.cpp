@@ -1,4 +1,4 @@
-// Version du 30/01/14
+// Version du 04/02/14
 
 #include "Fenetre.h"
 #include "Partie.h"
@@ -10,7 +10,6 @@
 Partie maPartie;
 int valeurMenu;
 char couleurCase[HAUTEUR][LARGEUR];
-
 
 // Constructeur et destructeur (par défaut).
 Fenetre::Fenetre(void)
@@ -108,6 +107,7 @@ void affiche()
 	case 4: cout<<"Rejouer."<<endl;break;
 	case 5: cout<<"Nouvelle."<<endl;break;
   }
+  valeurMenu=0;
  
   // Tracé de la grille.
   glColor3f(0, 0, 0);
@@ -140,10 +140,10 @@ void affiche()
 		glEnd();
 		glFlush();
 	}
-	GLUquadricObj *circle = gluNewQuadric ();
-	if (circle != 0) gluQuadricDrawStyle(circle, GLU_FILL); 
-	// gluDisk (nomDuDisque,centre,rayon,rayonTrouCentral,1);
-	gluDisk (circle,0,2,60,4); 
+	//GLUquadricObj *circle = gluNewQuadric ();
+	//if (circle != 0) gluQuadricDrawStyle(circle, GLU_FILL); 
+	//gluDisk (nomDuDisque,centre,rayon,rayonTrouCentral,1);
+	//gluDisk (circle,0,2,60,4); 
 
   }
 }
@@ -176,13 +176,6 @@ void handleButtons(int button, int state, int x, int y)
 		if (*c=='R')couleurCase[*ligne][*coup]='R';
 		if (*c=='J')couleurCase[*ligne][*coup]='J';
 		glutPostRedisplay();
-		/*Modif du 31/12/2013 pour corriger le pb d'affichage
-		if (*c=='R') glColor3f(1, 0, 0);
-		if (*c=='J') glColor3f(255, 255, 0);
-		glBegin(GL_POLYGON);
-		for(double k = 0; k < 2 * PI; k += PI / 25)glVertex3f(0.5+(*coup)+cos((double)k)*0.4,0.5+(*ligne)+sin((double)k)*0.4, 0.0);
-		glEnd();
-		glFlush();*/
 	}
 	delete partieEnCours;
 	delete ok;
@@ -231,13 +224,7 @@ void annuleCoup(void)
 	if(*isCoupAnnule)
 	{
 		couleurCase[*i][*j]='N';
-		//glutPostRedisplay() ;
-		/*glutPostRedisplay();
-		glColor3f(0, 0, 0);
-		glBegin(GL_POLYGON);
-		for(double k = 0; k < 2 * PI; k += PI / 25)glVertex3f(0.5+(*i)+cos((double)k)*0.4,0.5+(*j)+sin((double)k)*0.4, 0.0);
-		glEnd();
-		glFlush();*/
+		glutPostRedisplay() ;
 	}
 	delete isCoupAnnule;
 	delete i;

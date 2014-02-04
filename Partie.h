@@ -1,3 +1,5 @@
+// Version du 04/02/2014
+
 #pragma once
 #include <windows.h>
 #include <stdlib.h>
